@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @keyframes kp-shimmer { 0%{ background-position: -400px 0; } 100%{ background-position: 400px 0; } }
+  @keyframes kp-pulse { 0%,100%{ opacity:.55 } 50%{ opacity:1 } }
+  @keyframes kp-rise { from{ opacity:0; transform:translateY(14px);} to{ opacity:1; transform:translateY(0);} }
+  @keyframes kp-pop { from{ opacity:0; transform:scale(.94);} to{ opacity:1; transform:scale(1);} }
+  body { margin:0; background:#0E0B10; }
+  ::selection { background:#FF3D7F; color:#0E0B10; }
+  * { box-sizing:border-box; }
+</style>
+</helmet>
+<div style="position:absolute; width:0; height:0; overflow:hidden;"><x-import component-from-global-scope="image-slot" from="./image-slot.js" hint-size="1,1"></x-import></div>
+
+<div style="font-family:'Manrope',sans-serif; background:{{ colors.bg }}; color:{{ colors.text }}; min-height:100vh; width:100%; position:relative; overflow-x:hidden;">
+
+  <!-- ===== HEADER ===== -->
+  <header style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:18px 44px; background:rgba(14,11,16,0.82); backdrop-filter:blur(14px); border-bottom:1px solid {{ colors.line }};">
+    <div onClick="{{ nav.home }}" style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+      <div style="width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg, {{ colors.accent }}, {{ colors.accent2 }}); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z" fill="#0E0B10"/></svg>
+      </div>
+      <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:19px; letter-spacing:-0.02em;">Krystle's <span style="color:{{ colors.accent }};">Pistols</span></div>
+    </div>
+    <nav style="display:flex; align-items:center; gap:6px;">
+      <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="3">
+        <div onClick="{{ link.action }}" style="padding:9px 16px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; color:{{ link.active }}; background:{{ link.bg }};">{{ link.label }}</div>
+      </sc-for>
+      <div onClick="{{ nav.postYourself }}" style="margin-left:8px; padding:10px 20px; border-radius:100px; font-size:14px; font-weight:700; cursor:pointer; background:{{ colors.accent }}; color:#1a0812; box-shadow:0 6px 18px -6px {{ colors.accentGlow }};">Post Yourself</div>
+    </nav>
+  </header>
+
+  <!-- ===== LANDING ===== -->
+  <sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+  <main data-screen-label="Landing" style="animation:kp-rise .5s ease both;">
+
+    <section style="position:relative; padding:110px 44px 90px; overflow:hidden; background:radial-gradient(ellipse 900px 500px at 18% -10%, {{ colors.accentGlowSoft }}, transparent 60%), radial-gradient(ellipse 700px 500px at 100% 0%, rgba(124,92,255,0.18), transparent 55%);" data-comment-anchor="1ad76128fa-section">
+      <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center;">
+        <div>
+          <div style="display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border-radius:100px; background:rgba(255,61,127,0.12); border:1px solid rgba(255,61,127,0.35); font-size:13px; font-weight:700; color:{{ colors.accent }}; margin-bottom:26px;">21+ ONLY · VERIFIED PROFILES</div>
+          <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:68px; line-height:0.98; font-weight:800; letter-spacing:-0.03em; margin:0 0 22px;">Loaded with<br>personality.</h1>
+          <p style="font-size:19px; line-height:1.55; color:{{ colors.textDim }}; max-width:480px; margin:0 0 36px;">Post a profile that actually sounds like you — our AI bio writer handles the words. Or skip straight to browsing a city full of people who aren't holding back.</p>
+          <div style="display:flex; gap:14px; flex-wrap:wrap;">
+            <div onClick="{{ nav.postYourself }}" style="padding:16px 28px; border-radius:100px; background:{{ colors.accent }}; color:#1a0812; font-weight:800; font-size:16px; cursor:pointer; box-shadow:0 12px 28px -10px {{ colors.accentGlow }};">Post Yourself →</div>
+            <div onClick="{{ nav.startBrowsing }}" style="padding:16px 28px; border-radius:100px; background:transparent; border:1.5px solid {{ colors.line2 }}; color:{{ colors.text }}; font-weight:700; font-size:16px; cursor:pointer;">Start Browsing</div>
+          </div>
+          <div style="display:flex; gap:28px; margin-top:44px;">
+            <sc-for list="{{ stats }}" as="stat" hint-placeholder-count="3">
+              <div>
+                <div style="font-family:'Bricolage Grotesque',sans-serif; font-size:26px; font-weight:800; color:{{ colors.accent2 }};">{{ stat.num }}</div>
+                <div style="font-size:13px; color:{{ colors.textDim }};">{{ stat.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="position:relative; display:flex; justify-content:center;">
+          <div style="width:320px; border-radius:28px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; padding:16px; box-shadow:0 40px 80px -30px rgba(0,0,0,0.6); transform:rotate(3deg);">
+            <image-slot id="hero-photo-1" style="width:100%; height:340px; border-radius:18px; display:block;" shape="rounded" radius="18" placeholder="Drop a profile photo" src="https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=600&q=80" credit="Unsplash"></image-slot>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; padding:0 4px;">
+              <div>
+                <div style="font-weight:700; font-size:17px;">Reign, 27</div>
+                <div style="font-size:13px; color:{{ colors.textDim }};">Austin, TX</div>
+              </div>
+              <div style="padding:6px 12px; border-radius:100px; background:rgba(255,200,87,0.15); color:{{ colors.accent2 }}; font-size:12px; font-weight:700;">🔥 Boosted</div>
+            </div>
+          </div>
+          <div style="position:absolute; bottom:-24px; left:-30px; width:220px; border-radius:22px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; padding:12px; box-shadow:0 30px 60px -20px rgba(0,0,0,0.6); transform:rotate(-6deg);">
+            <image-slot id="hero-photo-2" style="width:100%; height:180px; border-radius:14px; display:block;" shape="rounded" radius="14" placeholder="Drop a photo" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=500&q=80" credit="Unsplash"></image-slot>
+            <div style="font-weight:700; font-size:14px; margin-top:10px;">Sasha, 31 · Denver</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding:70px 44px; max-width:1180px; margin:0 auto;">
+      <div style="text-align:center; margin-bottom:50px;">
+        <div style="font-size:13px; font-weight:700; letter-spacing:0.08em; color:{{ colors.accent }}; text-transform:uppercase; margin-bottom:10px;">How it works</div>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-size:38px; font-weight:800; margin:0;">Two ways in.</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:26px;">
+        <div style="background:{{ colors.card }}; border:1px solid {{ colors.line }}; border-radius:22px; padding:34px;">
+          <div style="font-size:34px; margin-bottom:14px;">✍️</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; margin-bottom:8px;">Get posted</div>
+          <p style="color:{{ colors.textDim }}; line-height:1.6; font-size:15px; margin:0 0 18px;">Upload your photos, pick a plan, and let our AI bio writer put your vibe into words — no awkward self-summaries required.</p>
+          <div onClick="{{ nav.postYourself }}" style="color:{{ colors.accent }}; font-weight:700; font-size:14px; cursor:pointer;">Start your profile →</div>
+        </div>
+        <div style="background:{{ colors.card }}; border:1px solid {{ colors.line }}; border-radius:22px; padding:34px;">
+          <div style="font-size:34px; margin-bottom:14px;" data-comment-anchor="587cada913-div">👀</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; margin-bottom:8px;">Get browsing</div>
+          <p style="color:{{ colors.textDim }}; line-height:1.6; font-size:15px; margin:0 0 18px;">One low monthly fee unlocks every profile, photo, and video on the platform. No per-profile paywalls, no limits.</p>
+          <div onClick="{{ nav.startBrowsing }}" style="color:{{ colors.accent }}; font-weight:700; font-size:14px; cursor:pointer;">See who's posted →</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding:70px 44px; max-width:1180px; margin:0 auto;">
+      <div style="text-align:center; margin-bottom:46px;">
+        <div style="font-size:13px; font-weight:700; letter-spacing:0.08em; color:{{ colors.accent }}; text-transform:uppercase; margin-bottom:10px;">Pricing</div>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-size:38px; font-weight:800; margin:0 0 12px;">Posting plans.</h2>
+        <p style="color:{{ colors.textDim }}; font-size:15px;">Add the AI Bio Writer to any plan for <strong style="color:{{ colors.text }};">+$10/mo</strong>.</p>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:22px;">
+        <sc-for list="{{ tiers }}" as="tier" hint-placeholder-count="3">
+          <div style="position:relative; background:{{ tier.bg }}; border:1.5px solid {{ tier.border }}; border-radius:22px; padding:30px 26px;">
+            <sc-if value="{{ tier.featured }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute; top:-13px; left:26px; padding:5px 12px; border-radius:100px; background:{{ colors.accent }}; color:#1a0812; font-size:12px; font-weight:800;">MOST POPULAR</div>
+            </sc-if>
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:20px; margin-bottom:6px;">{{ tier.name }}</div>
+            <div style="display:flex; align-items:baseline; gap:4px; margin-bottom:14px;"><span style="font-size:36px; font-weight:800;">${{ tier.price }}</span><span style="color:{{ colors.textDim }}; font-size:14px;">/mo</span></div>
+            <p style="color:{{ colors.textDim }}; font-size:14px; line-height:1.5; margin:0 0 18px; min-height:42px;">{{ tier.blurb }}</p>
+            <sc-for list="{{ tier.features }}" as="f" hint-placeholder-count="4">
+              <div style="display:flex; gap:8px; align-items:flex-start; font-size:14px; margin-bottom:9px; color:{{ colors.textDim2 }};"><span style="color:{{ colors.accent2 }};">✓</span>{{ f }}</div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+      <div style="margin-top:24px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; border-radius:18px; padding:22px 28px; display:flex; align-items:center; justify-content:space-between;">
+        <div>
+          <div style="font-weight:700; font-size:16px;">Just here to browse?</div>
+          <div style="color:{{ colors.textDim }}; font-size:14px;">Browsing is 100% free — unlimited photos, videos & messaging.</div>
+        </div>
+        <div onClick="{{ nav.startBrowsing }}" style="padding:12px 22px; border-radius:100px; background:transparent; border:1.5px solid {{ colors.accent }}; color:{{ colors.accent }}; font-weight:700; font-size:14px; cursor:pointer; white-space:nowrap;">Start Browsing →</div>
+      </div>
+    </section>
+
+    <footer style="padding:36px 44px; border-top:1px solid {{ colors.line }}; display:flex; justify-content:space-between; align-items:center; color:{{ colors.textDim }}; font-size:13px;">
+      <div>© 2026 Krystle's Pistols. 21+ only.</div>
+      <div>Terms · Privacy · Trust & Safety</div>
+    </footer>
+  </main>
+  </sc-if>
+
+  <!-- ===== SIGNUP ===== -->
+  <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}">
+  <main data-screen-label="Signup" style="max-width:900px; margin:0 auto; padding:70px 44px 100px; animation:kp-rise .45s ease both;" data-comment-anchor="21d73f514c-main">
+    <sc-if value="{{ signupRoleUnset }}" hint-placeholder-val="{{ true }}">
+      <div style="text-align:center; margin-bottom:46px;">
+        <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:40px; font-weight:800; margin:0 0 12px;">Which one are you?</h1>
+        <p style="color:{{ colors.textDim }}; font-size:16px;">You can always add the other later.</p>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+        <div onClick="{{ actions.pickPoster }}" style="cursor:pointer; background:{{ colors.card }}; border:1.5px solid {{ colors.line }}; border-radius:22px; padding:36px; text-align:center;" style-hover="border-color:{{ colors.accent }};">
+          <div style="font-size:40px; margin-bottom:16px;">✍️</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:22px; margin-bottom:8px;">I want to be found</div>
+          <div style="color:{{ colors.textDim }}; font-size:14px; line-height:1.5;">Post your photos, video & AI-written bio. Plans from $19/mo.</div>
+        </div>
+        <div onClick="{{ actions.pickBrowser }}" style="cursor:pointer; background:{{ colors.card }}; border:1.5px solid {{ colors.line }}; border-radius:22px; padding:36px; text-align:center;">
+          <div style="font-size:40px; margin-bottom:16px;">👀</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:22px; margin-bottom:8px;">I want to browse</div>
+          <div style="color:{{ colors.textDim }}; font-size:14px; line-height:1.5;">Unlimited access to every profile. Totally free.</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ role_is_browser }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:440px; margin:0 auto; text-align:center;">
+        <div style="font-size:13px; font-weight:700; color:{{ colors.accent }}; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Browse Access</div>
+        <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:34px; font-weight:800; margin:0 0 20px;">Free. Everything unlocked.</h1>
+        <div style="background:{{ colors.card }}; border:1px solid {{ colors.line }}; border-radius:22px; padding:30px; margin-bottom:26px;">
+          <div style="font-size:42px; font-weight:800; font-family:'Bricolage Grotesque',sans-serif;">$0<span style="font-size:16px; color:{{ colors.textDim }};">/mo</span></div>
+          <div style="text-align:left; margin-top:20px;">
+            <sc-for list="{{ browsePlan.features }}" as="f" hint-placeholder-count="3">
+              <div style="display:flex; gap:8px; font-size:14px; margin-bottom:10px; color:{{ colors.textDim2 }};"><span style="color:{{ colors.accent2 }};">✓</span>{{ f }}</div>
+            </sc-for>
+          </div>
+        </div>
+        <div onClick="{{ actions.subscribeBrowser }}" style="padding:16px; border-radius:100px; background:{{ colors.accent }}; color:#1a0812; font-weight:800; font-size:16px; cursor:pointer; margin-bottom:14px;">Create Free Account & Start Browsing →</div>
+        <div onClick="{{ actions.resetRole }}" style="color:{{ colors.textDim }}; font-size:13px; cursor:pointer;">← back</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ role_is_poster }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:440px; margin:0 auto;">
+        <div style="font-size:13px; font-weight:700; color:{{ colors.accent }}; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; text-align:center;">Create account</div>
+        <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:32px; font-weight:800; margin:0 0 24px; text-align:center;">Let's get you posted.</h1>
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <input placeholder="Email address" style="padding:15px 18px; border-radius:14px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; color:{{ colors.text }}; font-size:15px; font-family:inherit;">
+          <input placeholder="Password" type="password" style="padding:15px 18px; border-radius:14px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; color:{{ colors.text }}; font-size:15px; font-family:inherit;">
+          <input placeholder="Date of birth (MM/DD/YYYY)" style="padding:15px 18px; border-radius:14px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; color:{{ colors.text }}; font-size:15px; font-family:inherit;">
+        </div>
+        <div onClick="{{ actions.startWizard }}" style="margin-top:20px; padding:16px; border-radius:100px; background:{{ colors.accent }}; color:#1a0812; font-weight:800; font-size:16px; cursor:pointer; text-align:center;">Continue to Profile Setup →</div>
+        <div onClick="{{ actions.resetRole }}" style="color:{{ colors.textDim }}; font-size:13px; cursor:pointer; text-align:center; margin-top:16px;">← back</div>
+      </div>
+    </sc-if>
+  </main>
+  </sc-if>
+
+  <!-- ===== WIZARD ===== -->
+  <sc-if value="{{ isWizard }}" hint-placeholder-val="{{ false }}">
+  <main data-screen-label="Profile Wizard" style="max-width:760px; margin:0 auto; padding:50px 44px 100px; animation:kp-rise .45s ease both;">
+
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:44px;">
+      <sc-for list="{{ wizardSteps }}" as="ws" hint-placeholder-count="6">
+        <div style="flex:1; height:5px; border-radius:3px; background:{{ ws.bg }};"></div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ wStepIs.basics }}" hint-placeholder-val="{{ false }}">
+      <div style="font-size:13px; font-weight:700; color:{{ colors.accent }}; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Step 1 of 6 · Basics</div>
+      <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:32px; font-weight:800; margin:0 0 26px;">The essentials.</h1>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <input value="{{ w.name }}" onChange="{{ w.setName }}" placeholder="First name" style="padding:15px 18px; border-radius:14px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; color:{{ colors.text }}; font-size:15px; font-family:inherit;">
+        <div style="display:flex; gap:14px;">
+          <input value="{{ w.age }}" onChange="{{ w.setAge }}" placeholder="Age" style="flex:1; padding:15px 18px; border-radius:14px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; color:{{ colors.text }}; font-size:15px; font-family:inherit;">
+          <input value="{{ w.city }}" onChange="{{ w.setCity }}" placeholder="City, State" style="flex:2; padding:15px 18px; border-radius:14px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; color:{{ colors.text }}; font-size:15px; font-family:inherit;">
+        </div>
+        <div onClick="{{ w.toggleConfirm }}" style="display:flex; align-items:center; gap:12px; padding:16px 18px; border-radius:14px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; cursor:pointer; margin-top:6px;">
+          <div style="width:20px; height:20px; border-radius:6px; background:{{ w.confirmBg }}; border:1.5px solid {{ colors.line2 }}; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:13px;">{{ w.confirmCheck }}</div>
+          <div style="font-size:14px; color:{{ colors.textDim2 }};">I confirm I'm 21+ and this profile is really me.</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ wStepIs.photos }}" hint-placeholder-val="{{ false }}">
+      <div style="font-size:13px; font-weight:700; color:{{ colors.accent }}; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Step 2 of 6 · Photos & Video</div>
+      <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:32px; font-weight:800; margin:0 0 26px;">Show yourself off.</h1>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px;">
+        <image-slot id="wiz-photo-1" style="width:100%; height:180px; border-radius:16px; display:block; grid-column:span 2; grid-row:span 2;" shape="rounded" radius="16" placeholder="Main photo"></image-slot>
+        <image-slot id="wiz-photo-2" style="width:100%; height:84px; border-radius:16px; display:block;" shape="rounded" radius="16" placeholder="Photo"></image-slot>
+        <image-slot id="wiz-photo-3" style="width:100%; height:84px; border-radius:16px; display:block;" shape="rounded" radius="16" placeholder="Photo"></image-slot>
+        <image-slot id="wiz-photo-4" style="width:100%; height:180px; border-radius:16px; display:block;" shape="rounded" radius="16" placeholder="Video (optional)"></image-slot>
+      </div>
+      <p style="color:{{ colors.textDim }}; font-size:13px; margin-top:16px;">Drag and drop your own photos or videos — every plan supports unlimited uploads.</p>
+    </sc-if>
+
+    <sc-if value="{{ wStepIs.vibe }}" hint-placeholder-val="{{ false }}">
+      <div style="font-size:13px; font-weight:700; color:{{ colors.accent }}; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Step 3 of 6 · Vibe & Turn-ons</div>
+      <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:32px; font-weight:800; margin:0 0 8px;">What's your energy?</h1>
+      <p style="color:{{ colors.textDim }}; font-size:14px; margin:0 0 20px;">This is just for you — we never publish who or what you're looking for.</p>
+      <div style="font-size:13px; font-weight:700; color:{{ colors.textDim2 }}; margin-bottom:10px;">Vibe (pick a few)</div>
+      <div style="display:flex; flex-wrap:wrap; gap:9px; margin-bottom:24px;">
+        <sc-for list="{{ vibeChips }}" as="chip" hint-placeholder-count="10">
+          <div onClick="{{ chip.toggle }}" style="padding:9px 16px; border-radius:100px; font-size:13.5px; font-weight:600; cursor:pointer; background:{{ chip.bg }}; color:{{ chip.color }}; border:1px solid {{ chip.border }};">{{ chip.label }}</div>
+        </sc-for>
+      </div>
+      <div style="font-size:13px; font-weight:700; color:{{ colors.textDim2 }}; margin-bottom:10px;">Turn-ons (pick a few)</div>
+      <div style="display:flex; flex-wrap:wrap; gap:9px; margin-bottom:24px;">
+        <sc-for list="{{ turnOnChips }}" as="chip" hint-placeholder-count="10">
+          <div onClick="{{ chip.toggle }}" style="padding:9px 16px; border-radius:100px; font-size:13.5px; font-weight:600; cursor:pointer; background:{{ chip.bg }}; color:{{ chip.color }}; border:1px solid {{ chip.border }};">{{ chip.label }}</div>
+        </sc-for>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+        <input value="{{ w.color }}" onChange="{{ w.setColor }}" placeholder="Favorite color" style="padding:14px 16px; border-radius:14px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; color:{{ colors.text }}; font-size:14px; font-family:inherit;">
+        <input value="{{ w.drink }}" onChange="{{ w.setDrink }}" placeholder="Go-to drink" style="padding:14px 16px; border-radius:14px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; color:{{ colors.text }}; font-size:14px; font-family:inherit;">
+        <input value="{{ w.idealNight }}" onChange="{{ w.setIdealNight }}" placeholder="Ideal night" style="padding:14px 16px; border-radius:14px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; color:{{ colors.text }}; font-size:14px; font-family:inherit;">
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ wStepIs.aiBio }}" hint-placeholder-val="{{ false }}">
+      <div style="font-size:13px; font-weight:700; color:{{ colors.accent }}; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Step 4 of 6 · AI Bio Writer</div>
+      <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:32px; font-weight:800; margin:0 0 8px;">Let the AI write it.</h1>
+      <p style="color:{{ colors.textDim }}; font-size:14px; margin:0 0 24px;">Trained to write about your vibe, your turn-ons, your favorite color — never about who you're looking for or what they look like.</p>
+
+      <sc-if value="{{ w.aiLocked }}" hint-placeholder-val="{{ true }}">
+        <div style="background:linear-gradient(135deg, rgba(255,61,127,0.14), rgba(184,76,255,0.1)); border:1px solid rgba(255,61,127,0.35); border-radius:22px; padding:32px; text-align:center;">
+          <div style="font-size:34px; margin-bottom:10px;">🤖</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:20px; margin-bottom:8px;">Unlock the AI Bio Writer</div>
+          <div style="color:{{ colors.textDim2 }}; font-size:14px; margin-bottom:20px;">Add it to your plan for <strong style="color:{{ colors.text }};">+$10/mo</strong> and never write a bio yourself again.</div>
+          <div onClick="{{ w.unlockAi }}" style="display:inline-block; padding:14px 26px; border-radius:100px; background:{{ colors.accent }}; color:#1a0812; font-weight:800; font-size:15px; cursor:pointer;">Add AI Bio Writer — $10/mo</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ w.aiUnlockedNotGenerated }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center; padding:40px 20px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; border-radius:22px;">
+          <div style="font-size:34px; margin-bottom:12px;">✨</div>
+          <div style="color:{{ colors.textDim2 }}; font-size:14px; margin-bottom:20px;">Ready when you are.</div>
+          <div onClick="{{ w.generate }}" style="display:inline-block; padding:14px 26px; border-radius:100px; background:{{ colors.accent }}; color:#1a0812; font-weight:800; font-size:15px; cursor:pointer;">Generate My Bio</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ w.generating }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:30px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; border-radius:22px;">
+          <div style="height:14px; border-radius:7px; background:linear-gradient(90deg, {{ colors.line }} 25%, {{ colors.line2 }} 50%, {{ colors.line }} 75%); background-size:800px 100%; animation:kp-shimmer 1.2s linear infinite; margin-bottom:12px;"></div>
+          <div style="height:14px; width:85%; border-radius:7px; background:linear-gradient(90deg, {{ colors.line }} 25%, {{ colors.line2 }} 50%, {{ colors.line }} 75%); background-size:800px 100%; animation:kp-shimmer 1.2s linear infinite; margin-bottom:12px;"></div>
+          <div style="height:14px; width:60%; border-radius:7px; background:linear-gradient(90deg, {{ colors.line }} 25%, {{ colors.line2 }} 50%, {{ colors.line }} 75%); background-size:800px 100%; animation:kp-shimmer 1.2s linear infinite;"></div>
+          <div style="text-align:center; color:{{ colors.textDim }}; font-size:13px; margin-top:18px; animation:kp-pulse 1.4s ease infinite;">Writing your bio…</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ w.bioReady }}" hint-placeholder-val="{{ false }}">
+        <div style="animation:kp-pop .3s ease both;">
+          <textarea value="{{ w.bio }}" onChange="{{ w.setBio }}" style="width:100%; min-height:140px; padding:20px; border-radius:18px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; color:{{ colors.text }}; font-size:15px; line-height:1.6; font-family:inherit; resize:vertical;"></textarea>
+          <div onClick="{{ w.generate }}" style="margin-top:12px; display:inline-block; color:{{ colors.accent }}; font-weight:700; font-size:14px; cursor:pointer;">↻ Regenerate</div>
+        </div>
+      </sc-if>
+    </sc-if>
+
+    <sc-if value="{{ wStepIs.plan }}" hint-placeholder-val="{{ false }}">
+      <div style="font-size:13px; font-weight:700; color:{{ colors.accent }}; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Step 5 of 6 · Choose Plan</div>
+      <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:32px; font-weight:800; margin:0 0 22px;">Pick your exposure.</h1>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+        <sc-for list="{{ tierPicks }}" as="tp" hint-placeholder-count="3">
+          <div onClick="{{ tp.select }}" style="display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-radius:16px; background:{{ tp.bg }}; border:1.5px solid {{ tp.border }}; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:20px; height:20px; border-radius:50%; border:1.5px solid {{ colors.line2 }}; display:flex; align-items:center; justify-content:center;"><div style="width:10px; height:10px; border-radius:50%; background:{{ tp.dot }};"></div></div>
+              <div>
+                <div style="font-weight:700; font-size:15.5px;">{{ tp.name }}</div>
+                <div style="font-size:13px; color:{{ colors.textDim }};">{{ tp.blurb }}</div>
+              </div>
+            </div>
+            <div style="font-weight:800; font-size:17px;">${{ tp.price }}<span style="font-size:12px; color:{{ colors.textDim }}; font-weight:600;">/mo</span></div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:{{ colors.card }}; border:1px solid {{ colors.line }}; border-radius:16px;">
+        <div style="font-size:14px; color:{{ colors.textDim2 }};">AI Bio Writer add-on</div>
+        <div style="font-weight:700; font-size:14px;">{{ w.addonLabel }}</div>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:22px; padding-top:18px; border-top:1px dashed {{ colors.line }};">
+        <div style="font-size:15px; color:{{ colors.textDim2 }};">Total</div>
+        <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:24px;">${{ w.total }}<span style="font-size:13px; color:{{ colors.textDim }}; font-weight:600;">/mo</span></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ wStepIs.review }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ w.notPublished }}" hint-placeholder-val="{{ true }}">
+        <div style="font-size:13px; font-weight:700; color:{{ colors.accent }}; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Step 6 of 6 · Review</div>
+        <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:32px; font-weight:800; margin:0 0 22px;">Last look.</h1>
+        <div style="background:{{ colors.card }}; border:1px solid {{ colors.line }}; border-radius:22px; padding:26px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:14px;"><span style="color:{{ colors.textDim }}; font-size:14px;">Name</span><span style="font-weight:700; font-size:14px;">{{ w.reviewName }}</span></div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:14px;"><span style="color:{{ colors.textDim }}; font-size:14px;">Location</span><span style="font-weight:700; font-size:14px;">{{ w.reviewCity }}</span></div>
+          <div style="margin-bottom:14px;"><span style="color:{{ colors.textDim }}; font-size:14px;">Bio</span><p style="font-size:14.5px; line-height:1.6; margin:8px 0 0; color:{{ colors.textDim2 }};">{{ w.reviewBio }}</p></div>
+          <div style="display:flex; justify-content:space-between; padding-top:14px; border-top:1px dashed {{ colors.line }};"><span style="color:{{ colors.textDim }}; font-size:14px;">Plan</span><span style="font-weight:800; font-size:15px;">{{ w.reviewPlan }} — ${{ w.total }}/mo</span></div>
+        </div>
+        <div onClick="{{ w.publish }}" style="margin-top:22px; padding:17px; border-radius:100px; background:{{ colors.accent }}; color:#1a0812; font-weight:800; font-size:16px; cursor:pointer; text-align:center; box-shadow:0 12px 28px -10px {{ colors.accentGlow }};">Publish Profile →</div>
+      </sc-if>
+      <sc-if value="{{ w.isPublished }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center; padding:60px 20px; animation:kp-pop .4s ease both;">
+          <div style="font-size:52px; margin-bottom:16px;">🎉</div>
+          <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:32px; font-weight:800; margin:0 0 10px;">You're live.</h1>
+          <p style="color:{{ colors.textDim }}; font-size:15px; margin-bottom:28px;">Your profile is now searchable and boosted per your plan.</p>
+          <div onClick="{{ w.viewProfile }}" style="display:inline-block; padding:16px 30px; border-radius:100px; background:{{ colors.accent }}; color:#1a0812; font-weight:800; font-size:15px; cursor:pointer;">View My Live Profile →</div>
+        </div>
+      </sc-if>
+    </sc-if>
+
+    <sc-if value="{{ w.showNav }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; justify-content:space-between; margin-top:40px;">
+        <div onClick="{{ w.back }}" style="padding:14px 24px; border-radius:100px; background:transparent; border:1.5px solid {{ colors.line2 }}; color:{{ colors.textDim2 }}; font-weight:700; font-size:14px; cursor:pointer; visibility:{{ w.backVisible }};">← Back</div>
+        <div onClick="{{ w.next }}" style="padding:14px 26px; border-radius:100px; background:{{ colors.accent }}; color:#1a0812; font-weight:800; font-size:14px; cursor:pointer;">{{ w.nextLabel }} →</div>
+      </div>
+    </sc-if>
+  </main>
+  </sc-if>
+
+  <!-- ===== PROFILE ===== -->
+  <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+  <main data-screen-label="Profile Detail" style="max-width:900px; margin:0 auto; padding:50px 44px 100px; animation:kp-rise .45s ease both;">
+    <div style="display:grid; grid-template-columns:1fr 1.1fr; gap:36px;">
+      <div style="position:relative;">
+        <image-slot id="profile-main-photo" style="width:100%; height:420px; border-radius:22px; display:block;" shape="rounded" radius="22" src="https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=700&q=80" credit="Unsplash"></image-slot>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+          <image-slot id="profile-photo-2" style="width:100%; height:120px; border-radius:16px; display:block; filter:{{ profileGate.blur }};" shape="rounded" radius="16" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&q=80" credit="Unsplash"></image-slot>
+          <image-slot id="profile-photo-3" style="width:100%; height:120px; border-radius:16px; display:block; filter:{{ profileGate.blur }};" shape="rounded" radius="16" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&q=80" credit="Unsplash"></image-slot>
+        </div>
+        <sc-if value="{{ profileGate.showOverlay }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute; inset:0; top:420px; margin-top:10px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; border-radius:16px;">
+            <div onClick="{{ profileGate.unlock }}" style="padding:13px 22px; border-radius:100px; background:{{ colors.accent }}; color:#1a0812; font-weight:800; font-size:14px; cursor:pointer; box-shadow:0 10px 24px -8px rgba(0,0,0,0.5);">🔒 Unlock full gallery — ${{ browsePlan.price }}/mo</div>
+          </div>
+        </sc-if>
+      </div>
+      <div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+          <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:32px; font-weight:800; margin:0;">{{ liveProfile.name }}, {{ liveProfile.age }}</h1>
+          <sc-if value="{{ liveProfile.showBadge }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:6px 12px; border-radius:100px; background:{{ liveProfile.badgeBg }}; color:{{ liveProfile.badgeColor }}; font-size:12px; font-weight:800;">{{ liveProfile.badgeText }}</div>
+          </sc-if>
+        </div>
+        <div style="color:{{ colors.textDim }}; font-size:15px; margin-bottom:22px;">{{ liveProfile.city }}</div>
+        <p style="font-size:16px; line-height:1.7; color:{{ colors.textDim2 }}; margin:0 0 28px;">{{ liveProfile.bio }}</p>
+        <div style="display:flex; gap:12px;">
+          <div style="flex:1; padding:15px; text-align:center; border-radius:100px; background:{{ colors.accent }}; color:#1a0812; font-weight:800; font-size:15px; cursor:pointer;">Message</div>
+          <div style="flex:1; padding:15px; text-align:center; border-radius:100px; background:transparent; border:1.5px solid {{ colors.line2 }}; color:{{ colors.text }}; font-weight:700; font-size:15px; cursor:pointer;">♥ Like</div>
+        </div>
+      </div>
+    </div>
+  </main>
+  </sc-if>
+
+  <!-- ===== ACCOUNT ===== -->
+  <sc-if value="{{ isAccount }}" hint-placeholder-val="{{ false }}">
+  <main data-screen-label="Account" style="max-width:760px; margin:0 auto; padding:50px 44px 100px; animation:kp-rise .45s ease both;">
+    <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:32px; font-weight:800; margin:0 0 26px;">Account & Subscription</h1>
+
+    <div style="display:flex; gap:8px; margin-bottom:28px; background:{{ colors.card }}; padding:6px; border-radius:100px; width:fit-content;">
+      <sc-for list="{{ accountTabs }}" as="tab" hint-placeholder-count="2">
+        <div onClick="{{ tab.select }}" style="padding:10px 20px; border-radius:100px; font-size:14px; font-weight:700; cursor:pointer; background:{{ tab.bg }}; color:{{ tab.color }};">{{ tab.label }}</div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ acct.isPoster }}" hint-placeholder-val="{{ true }}">
+      <div style="background:{{ colors.card }}; border:1px solid {{ colors.line }}; border-radius:22px; padding:28px; margin-bottom:18px;">
+        <div style="font-size:13px; font-weight:700; color:{{ colors.textDim }}; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:16px;">Posting plan</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <sc-for list="{{ acctTierPicks }}" as="tp" hint-placeholder-count="3">
+            <div onClick="{{ tp.select }}" style="display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-radius:14px; background:{{ tp.bg }}; border:1.5px solid {{ tp.border }}; cursor:pointer;">
+              <div style="font-weight:700; font-size:14.5px;">{{ tp.name }}</div>
+              <div style="font-weight:800; font-size:15px;">${{ tp.price }}/mo</div>
+            </div>
+          </sc-for>
+        </div>
+        <div onClick="{{ acct.toggleAddon }}" style="display:flex; align-items:center; justify-content:space-between; margin-top:16px; padding:16px 20px; border-radius:14px; background:{{ colors.cardSoft }}; cursor:pointer;">
+          <div style="font-size:14px; color:{{ colors.textDim2 }};">AI Bio Writer add-on (+$10/mo)</div>
+          <div style="width:42px; height:24px; border-radius:100px; background:{{ acct.addonTrackBg }}; position:relative;"><div style="position:absolute; top:2px; left:{{ acct.addonKnobPos }}; width:20px; height:20px; border-radius:50%; background:#fff; transition:left .15s;"></div></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:16px; border-top:1px dashed {{ colors.line }};">
+          <div style="font-size:14px; color:{{ colors.textDim }};">Total billed monthly</div>
+          <div style="font-weight:800; font-size:20px;">${{ acct.total }}</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ acct.isBrowser }}" hint-placeholder-val="{{ false }}">
+      <div style="background:{{ colors.card }}; border:1px solid {{ colors.line }}; border-radius:22px; padding:28px; margin-bottom:18px;">
+        <div style="font-size:13px; font-weight:700; color:{{ colors.textDim }}; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:16px;">Browse Access</div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-size:15px; color:{{ colors.textDim2 }};">Unlimited profiles, photos & video</div>
+          <div style="font-weight:800; font-size:20px;">Free</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="background:{{ colors.card }}; border:1px solid {{ colors.line }}; border-radius:22px; padding:24px 28px; display:flex; flex-direction:column; gap:14px;">
+      <div style="display:flex; justify-content:space-between; font-size:14px;"><span style="color:{{ colors.textDim }};">Next billing date</span><span style="font-weight:700;">Aug 3, 2026</span></div>
+      <div style="display:flex; justify-content:space-between; font-size:14px;"><span style="color:{{ colors.textDim }};">Payment method</span><span style="font-weight:700;">Visa •••• 4471</span></div>
+      <div onClick="{{ acct.cancel }}" style="color:{{ acct.cancelColor }}; font-size:13.5px; font-weight:600; cursor:pointer; margin-top:6px;">{{ acct.cancelLabel }}</div>
+    </div>
+  </main>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#00C2A8&quot;,&quot;options&quot;:[&quot;#FF3D7F&quot;,&quot;#FF6B4A&quot;,&quot;#B84CFF&quot;,&quot;#00C2A8&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;bioTone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Confident&quot;,&quot;options&quot;:[&quot;Playful&quot;,&quot;Confident&quot;,&quot;Poetic&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;AI Bio Writer&quot;},&quot;showBoostBadge&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Profile&quot;}}">
+class Component extends DCLogic {
+  state = {
+    screen: 'landing',
+    role: null, // 'poster' | 'browser'
+    // wizard
+    wStep: 0,
+    name: '', age: '27', city: '',
+    confirmAge: false,
+    vibes: ['Confident','Playful'],
+    turnOns: ['Teasing','Spontaneity'],
+    color: 'Emerald green',
+    drink: 'Old fashioned',
+    idealNight: 'rooftop bars and bad decisions',
+    tier: 'pro',
+    aiAddon: false,
+    bio: '',
+    generating: false,
+    bioGenerated: false,
+    published: false,
+    // profile view paywall demo
+    unlocked: false,
+    // account
+    accountTab: 'poster',
+    accountTier: 'pro',
+    accountAddon: true,
+    cancelClicked: false,
+  };
+
+  vibeOptions = ['Confident','Romantic','Adventurous','Switch','Dominant','Submissive','Playful','Mysterious','Sensual','Wild Card'];
+  turnOnOptions = ['Roleplay','Power play','Praise','Spontaneity','Slow burn','Sensory play','Teasing','Aftercare','Bondage curious','Denial'];
+
+  tierData = [
+    { id:'normal', name:'Normal', price:19, blurb:"Your profile, live and searchable.", features:['Standard placement','Unlimited photos','Message requests'] },
+    { id:'pro', name:'Pro', price:39, blurb:'Boosted toward the top of every search.', features:['Everything in Normal','Priority placement','Read receipts','Weekly analytics'], featured:true },
+    { id:'premier', name:'Premier', price:69, blurb:'Maximum exposure, front and center.', features:['Everything in Pro','2x exposure boost','Featured in blog posts','Top-of-list guarantee'] },
+  ];
+
+  browsePlanData = { price:0, features:['See every photo & video','Unlimited messaging','Zero ads, zero limits'] };
+
+  colorScheme = {
+    bg:'#0E0B10', card:'#1C151F', cardSoft:'#221A26', line:'rgba(255,255,255,0.09)', line2:'rgba(255,255,255,0.18)',
+    text:'#F6EFE9', textDim:'#B9A9BF', textDim2:'#CBC0D1',
+  };
+
+  toggleChip(key, value) {
+    this.setState(s => {
+      const list = s[key];
+      const has = list.includes(value);
+      return { [key]: has ? list.filter(v => v !== value) : [...list, value] };
+    });
+  }
+
+  toneOpeners() {
+    const tone = this.props.bioTone || 'Playful';
+    return {
+      Playful: v => `Confirmed ${v.toLowerCase()}, mostly harmless.`,
+      Confident: v => `I know exactly what I want, and I'm not shy about it. ${v} energy, all day.`,
+      Poetic: v => `Some people play it safe. I'd rather be ${v.toLowerCase()} and interesting.`,
+    }[tone];
+  }
+
+  buildBio() {
+    const s = this.state;
+    const opener = this.toneOpeners()(s.vibes[0] || 'Playful');
+    const parts = [opener];
+    if (s.idealNight) parts.push(`My kind of night is ${s.idealNight}.`);
+    if (s.turnOns.length) parts.push(`Big fan of ${s.turnOns.slice(0,2).join(' and ').toLowerCase()} — bonus points if you keep up.`);
+    if (s.color || s.drink) parts.push("Favorite color's " + (s.color || 'a mystery') + ", go-to drink's " + (s.drink || 'a surprise') + ".");
+    parts.push("I don't do boring.");
+    return parts.join(' ');
+  }
+
+  generateBio() {
+    this.setState({ generating: true, bioGenerated: false });
+    setTimeout(() => {
+      this.setState({ generating: false, bioGenerated: true, bio: this.buildBio() });
+    }, 1300);
+  }
+
+  set(key, e) { this.setState({ [key]: e.target.value }); }
+
+  wizardStepKeys = ['basics','photos','vibe','aiBio','plan','review'];
+
+  nextWizardStep() {
+    const s = this.state;
+    if (s.wStep === 0 && !s.confirmAge) return;
+    if (s.wStep < 5) this.setState({ wStep: s.wStep + 1 });
+  }
+  backWizardStep() {
+    if (this.state.wStep > 0) this.setState({ wStep: this.state.wStep - 1 });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const c = this.colorScheme;
+    const accent = this.props.accentColor || '#FF3D7F';
+    const accent2 = '#FFC857';
+    const colors = {
+      ...c, accent, accent2,
+      accentGlow: accent + '66', accentGlowSoft: accent + '22',
+    };
+
+    const navLinks = [
+      { label:'Home', action: () => this.setState({ screen:'landing' }), active: s.screen==='landing'? colors.text: colors.textDim, bg: s.screen==='landing'? colors.card:'transparent' },
+      { label:'Browse', action: () => this.setState({ screen:'profile' }), active: s.screen==='profile'? colors.text: colors.textDim, bg: s.screen==='profile'? colors.card:'transparent' },
+      { label:'Account', action: () => this.setState({ screen:'account' }), active: s.screen==='account'? colors.text: colors.textDim, bg: s.screen==='account'? colors.card:'transparent' },
+    ];
+
+    const tiers = this.tierData.map(t => ({
+      ...t,
+      bg: t.featured ? colors.cardSoft : colors.card,
+      border: t.featured ? colors.accent : colors.line,
+    }));
+
+    return {
+      colors, navLinks, tiers,
+      browsePlan: { price: this.browsePlanData.price, features: this.browsePlanData.features },
+      stats: [
+        { num:'48K+', label:'active browsers' },
+        { num:'6.2K', label:'posted profiles' },
+        { num:'4.8★', label:'avg. rating' },
+      ],
+      isLanding: s.screen === 'landing',
+      isSignup: s.screen === 'signup',
+      isWizard: s.screen === 'wizard',
+      isProfile: s.screen === 'profile',
+      isAccount: s.screen === 'account',
+      signupRoleUnset: s.screen==='signup' && !s.role,
+      role_is_browser: s.screen==='signup' && s.role==='browser',
+      role_is_poster: s.screen==='signup' && s.role==='poster',
+      nav: {
+        home: () => this.setState({ screen:'landing' }),
+        postYourself: () => this.setState({ screen:'signup', role:'poster' }),
+        startBrowsing: () => this.setState({ screen:'signup', role:'browser' }),
+      },
+      actions: {
+        pickPoster: () => this.setState({ role:'poster' }),
+        pickBrowser: () => this.setState({ role:'browser' }),
+        resetRole: () => this.setState({ role:null }),
+        subscribeBrowser: () => this.setState({ screen:'profile', unlocked:true }),
+        startWizard: () => this.setState({ screen:'wizard', wStep:0 }),
+      },
+
+      wizardSteps: this.wizardStepKeys.map((k,i) => ({ bg: i <= s.wStep ? colors.accent : colors.line })),
+      wStepIs: {
+        basics: s.wStep===0, photos: s.wStep===1, vibe: s.wStep===2,
+        aiBio: s.wStep===3, plan: s.wStep===4, review: s.wStep===5,
+      },
+
+      vibeChips: this.vibeOptions.map(v => {
+        const sel = s.vibes.includes(v);
+        return { label:v, toggle: () => this.toggleChip('vibes', v), bg: sel? colors.accent: colors.card, color: sel? '#1a0812': colors.textDim2, border: sel? colors.accent: colors.line };
+      }),
+      turnOnChips: this.turnOnOptions.map(v => {
+        const sel = s.turnOns.includes(v);
+        return { label:v, toggle: () => this.toggleChip('turnOns', v), bg: sel? colors.accent2: colors.card, color: sel? '#3a2600': colors.textDim2, border: sel? colors.accent2: colors.line };
+      }),
+
+      w: {
+        name: s.name, setName: (e) => this.set('name', e),
+        age: s.age, setAge: (e) => this.set('age', e),
+        city: s.city, setCity: (e) => this.set('city', e),
+        color: s.color, setColor: (e) => this.set('color', e),
+        drink: s.drink, setDrink: (e) => this.set('drink', e),
+        idealNight: s.idealNight, setIdealNight: (e) => this.set('idealNight', e),
+        toggleConfirm: () => this.setState({ confirmAge: !s.confirmAge }),
+        confirmBg: s.confirmAge ? colors.accent : 'transparent',
+        confirmCheck: s.confirmAge ? '✓' : '',
+        aiLocked: !s.aiAddon,
+        aiUnlockedNotGenerated: s.aiAddon && !s.bioGenerated && !s.generating,
+        generating: s.generating,
+        bioReady: s.bioGenerated && !s.generating,
+        unlockAi: () => this.setState({ aiAddon: true }),
+        generate: () => this.generateBio(),
+        bio: s.bio, setBio: (e) => this.set('bio', e),
+        addonLabel: s.aiAddon ? 'Added +$10/mo' : 'Not added',
+        total: (this.tierData.find(t => t.id===s.tier)?.price || 0) + (s.aiAddon ? 10 : 0),
+        notPublished: !s.published,
+        isPublished: s.published,
+        reviewName: s.name || 'Reign',
+        reviewCity: s.city || 'Austin, TX',
+        reviewBio: s.bio || this.buildBio(),
+        reviewPlan: this.tierData.find(t => t.id===s.tier)?.name || 'Pro',
+        publish: () => this.setState({ published: true }),
+        viewProfile: () => this.setState({ screen:'profile', unlocked:true }),
+        showNav: s.wStep < 5,
+        back: () => this.backWizardStep(),
+        next: () => this.nextWizardStep(),
+        backVisible: s.wStep===0 ? 'hidden' : 'visible',
+        nextLabel: 'Continue',
+      },
+
+      tierPicks: this.tierData.map(t => ({
+        ...t,
+        select: () => this.setState({ tier: t.id }),
+        bg: s.tier===t.id ? colors.cardSoft : colors.card,
+        border: s.tier===t.id ? colors.accent : colors.line,
+        dot: s.tier===t.id ? colors.accent : 'transparent',
+      })),
+
+      profileGate: {
+        showOverlay: false,
+        blur: 'none',
+        unlock: () => this.setState({ unlocked: true }),
+      },
+
+      liveProfile: (() => {
+        const usingOwn = s.published;
+        const tier = this.tierData.find(t => t.id === s.tier) || this.tierData[1];
+        const showBadge = this.props.showBoostBadge !== false && (usingOwn ? (tier.id !== 'normal') : true);
+        const badgeIsPremier = usingOwn ? tier.id === 'premier' : false;
+        return {
+          name: usingOwn ? (s.name || 'Reign') : 'Reign',
+          age: usingOwn ? (s.age || '27') : '27',
+          city: usingOwn ? (s.city || 'Austin, TX') : 'Austin, TX',
+          bio: usingOwn ? (s.bio || this.buildBio()) : "Confirmed wild card, mostly harmless. My kind of night is rooftop bars and bad decisions. Big fan of teasing and spontaneity — bonus points if you keep up. Favorite color's emerald green, go-to drink's an old fashioned. I don't do boring.",
+          showBadge,
+          badgeText: badgeIsPremier ? '⭐ Premier Pick' : '🔥 Boosted',
+          badgeBg: badgeIsPremier ? 'rgba(184,76,255,0.18)' : 'rgba(255,200,87,0.15)',
+          badgeColor: badgeIsPremier ? '#C99BFF' : colors.accent2,
+        };
+      })(),
+
+      accountTabs: [
+        { label:'Posting Plan', select: () => this.setState({ accountTab:'poster' }), bg: s.accountTab==='poster'? colors.bg: 'transparent', color: s.accountTab==='poster'? colors.text: colors.textDim },
+        { label:'Browse Plan', select: () => this.setState({ accountTab:'browser' }), bg: s.accountTab==='browser'? colors.bg: 'transparent', color: s.accountTab==='browser'? colors.text: colors.textDim },
+      ],
+      acct: {
+        isPoster: s.accountTab === 'poster',
+        isBrowser: s.accountTab === 'browser',
+        toggleAddon: () => this.setState({ accountAddon: !s.accountAddon }),
+        addonTrackBg: s.accountAddon ? colors.accent : colors.line2,
+        addonKnobPos: s.accountAddon ? '20px' : '2px',
+        total: (this.tierData.find(t => t.id===s.accountTier)?.price || 0) + (s.accountAddon ? 10 : 0),
+        cancel: () => this.setState({ cancelClicked: !s.cancelClicked }),
+        cancelLabel: s.cancelClicked ? 'Cancellation scheduled for Aug 3, 2026' : 'Cancel subscription',
+        cancelColor: s.cancelClicked ? colors.textDim : '#FF6B6B',
+      },
+      acctTierPicks: this.tierData.map(t => ({
+        ...t,
+        select: () => this.setState({ accountTier: t.id }),
+        bg: s.accountTier===t.id ? colors.cardSoft : colors.card,
+        border: s.accountTier===t.id ? colors.accent : colors.line,
+      })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
