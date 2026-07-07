@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(run)",
+      "Bash(python3 -m http.server 7423)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:7423/)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(gh auth *)",
+      "Bash(curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg)",
+      "Bash(sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg)",
+      "Bash(dpkg --print-architecture)",
+      "Bash(echo \"deb [arch=$\\(dpkg --print-architecture\\) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main\")",
+      "Bash(sudo tee /etc/apt/sources.list.d/github-cli.list)",
+      "Bash(sudo apt-get update -q)",
+      "Bash(sudo apt-get install -y gh)",
+      "Bash(gh repo *)",
+      "mcp__claude_ai_Sanity__whoami",
+      "mcp__claude_ai_Vercel__deploy_to_vercel",
+      "mcp__claude_ai_Sanity__list_organizations",
+      "mcp__claude_ai_Vercel__list_teams",
+      "mcp__claude_ai_Sanity__create_project",
+      "Bash(npm install *)",
+      "Bash(npx --yes vercel --version)",
+      "mcp__claude_ai_Sanity__add_cors_origin",
+      "Bash(vercel deploy *)",
+      "Bash(Read /tmp/claude-1000/-home-hando-Repos-krystles-pistols/978f1e44-0622-4464-b5f3-437620760a77/tasks/b3pokmnal.output)"
+    ]
+  }
+}
