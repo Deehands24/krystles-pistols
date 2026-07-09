@@ -1,0 +1,6 @@
+{
+  "name": "Krystles Pistols",
+  "description": "Discreet premium private club platform with biometric-grade verification, ephemeral encounters, secure direct messaging, and an admin moderation panel.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-gold-100: #F6EAD2;
+  --color-gold-200: #EDD5A5;
+  --color-gold-300: #E4C078;
+  --color-gold-400: #DBAB4B;
+  --color-gold-500: #D4AF37;
+  --color-gold-600: #B2912B;
+  --color-gold-700: #8E7220;
+  --color-gold-800: #6A5415;
+  --color-gold-900: #46360A;
+}
+
+/* Custom global animations or background styles */
+html, body {
+  background-color: #050505;
+  color: #f4f4f5;
+  font-family: var(--font-sans);
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+  background: #161616;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e63636;
+}
+

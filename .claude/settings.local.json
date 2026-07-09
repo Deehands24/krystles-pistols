@@ -25,7 +25,20 @@
       "Bash(npx --yes vercel --version)",
       "mcp__claude_ai_Sanity__add_cors_origin",
       "Bash(vercel deploy *)",
-      "Bash(Read /tmp/claude-1000/-home-hando-Repos-krystles-pistols/978f1e44-0622-4464-b5f3-437620760a77/tasks/b3pokmnal.output)"
+      "Bash(Read /tmp/claude-1000/-home-hando-Repos-krystles-pistols/978f1e44-0622-4464-b5f3-437620760a77/tasks/b3pokmnal.output)",
+      "mcp__claude_ai_Supabase__get_cost",
+      "Bash(claude mcp *)",
+      "Bash(git check-ignore *)",
+      "Bash(set -e)",
+      "Bash(npx --yes create-next-app@latest . --typescript --tailwind --app --no-src-dir --import-alias \"@/*\" --eslint --use-npm --skip-install)",
+      "Bash(npm -v)",
+      "Bash(npx --yes sanity@latest schema deploy --project c575t6ib --dataset production)",
+      "Bash(npx --yes sanity@latest schema deploy --verbose)",
+      "Bash(npm audit *)",
+      "Bash(npm run *)",
+      "Bash(chromium-cli --help)",
+      "Bash(mkdir -p /tmp/claude-1000/-home-hando-Repos-krystles-pistols/9f63f82e-97bc-4365-a11b-e2355f239266/scratchpad/pw)",
+      "Bash(npm init *)"
     ]
   }
 }
